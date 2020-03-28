@@ -44,6 +44,26 @@ class OffState : public State
 };
 static OffState offState;
 
+class BlinkState : public State
+{
+  public:
+  BlinkState() : lastChange(0), value(HIGH)
+  {
+  }
+  void execute(FSM* fsm);
+  void event(FSM* fsm, Event event);
+  void onEnter(FSM* fsm)
+  {
+    lastChange = millis();
+    value = HIGH;
+  }
+
+  private:
+  unsigned long lastChange;
+  uint8_t value;
+};
+static BlinkState blinkState;
+
 class FSM
 {
   public:
@@ -85,7 +105,7 @@ void OnState::event(FSM* fsm, Event event)
 {
   if (event == BUTTON_DOWN)
   {
-    fsm->next(&offState);
+    fsm->next(&blinkState);
   }
 }
 
@@ -99,6 +119,26 @@ void OffState::event(FSM* fsm, Event event)
   if (event == BUTTON_DOWN)
   {
     fsm->next(&onState);
+  }
+}
+
+void BlinkState::execute(FSM* fsm)
+{
+  auto curTime = millis();
+  if (curTime - lastChange < 500)
+  {
+    return;
+  }
+  lastChange = curTime;
+  value = (value == LOW ? HIGH : LOW);
+  digitalWrite(MOTOR_PIN, value);
+}
+
+void BlinkState::event(FSM* fsm, Event event)
+{
+  if (event == BUTTON_DOWN)
+  {
+    fsm->next(&offState);
   }
 }
 
