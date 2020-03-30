@@ -1,7 +1,9 @@
 #include <Arduino.h>
+#include <Servo.h>
 
 static constexpr uint8_t const MOTOR_PIN = 2;
 static constexpr uint8_t const BUTTON_PIN = 9;
+static constexpr uint8_t const SERVO_PIN = 3;
 
 enum Event
 {
@@ -191,6 +193,7 @@ class Button
 
 static FSM fsm(&offState);
 static Button button(BUTTON_PIN);
+static Servo head;
 
 void setup()
 {
@@ -198,10 +201,31 @@ void setup()
   pinMode(MOTOR_PIN, OUTPUT);
   pinMode(BUTTON_PIN, INPUT_PULLUP);
   button.begin();
+  head.attach(SERVO_PIN);
 }
 
 void loop()
 {
+  static int headPos = 0;
+  static int increment = 1;
+  static auto lastWrite = millis();
   fsm.execute();
   fsm.event(button.getEvent());
+
+  auto curTime = millis();
+  if (curTime - lastWrite < 8)
+  {
+    return;
+  }
+  head.write(headPos);
+  headPos = headPos + increment;
+  if (headPos == 156)
+  {
+    increment = -1;
+  }
+  else if (headPos == -1)
+  {
+    increment = 1;
+  }
+  lastWrite = curTime;
 }

@@ -8,6 +8,7 @@
             "includePath": [
                 "/home/rpoisel/git/Arduino-Robot/include",
                 "/home/rpoisel/git/Arduino-Robot/src",
+                "/home/rpoisel/git/Arduino-Robot/.pio/libdeps/arduino_robot/Servo_ID883/src",
                 "/home/rpoisel/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "/home/rpoisel/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
                 "/home/rpoisel/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
@@ -23,6 +24,7 @@
                 "path": [
                     "/home/rpoisel/git/Arduino-Robot/include",
                     "/home/rpoisel/git/Arduino-Robot/src",
+                    "/home/rpoisel/git/Arduino-Robot/.pio/libdeps/arduino_robot/Servo_ID883/src",
                     "/home/rpoisel/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "/home/rpoisel/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
                     "/home/rpoisel/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
